@@ -1839,7 +1839,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ff8;
+  background: #ffc182;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1971,7 +1971,7 @@ pre .javascript .function {
 .with-love {
   display: inline-block;
   margin: 0 5px;
-  color: #808080;
+  color: #ffffff;
 }
 .powered-by,
 .theme-info {
@@ -2941,4 +2941,7 @@ ul.breadcrumb li+li:last-child {
   .post-body {
     text-align: justify;
   }
+}
+body {
+  background-color: #4a5c8c;
 }
