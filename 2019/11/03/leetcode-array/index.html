@@ -117,10 +117,10 @@
 <meta property="og:description" content="（E）1.两数之和（HashMap） 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。 示例: 给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9所以返回">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
-<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/22/rainwatertrap.png">
-<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/histogram.png">
-<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/histogram_area.png">
-<meta property="og:updated_time" content="2019-11-03T03:51:23.036Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/rainwatertrap.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/histogram.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/histogram_area.png">
+<meta property="og:updated_time" content="2019-11-03T05:45:20.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数组（leetcode）">
 <meta name="twitter:description" content="（E）1.两数之和（HashMap） 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。 你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。 示例: 给定 nums = [2, 7, 11, 15], target = 9 因为 nums[0] + nums[1] = 2 + 7 = 9所以返回">
@@ -344,7 +344,7 @@
                 
               
 
-              <time title="创建时间：2019-11-03 08:18:44 / 修改时间：11:51:23" itemprop="dateCreated datePublished" datetime="2019-11-03T08:18:44+08:00">2019-11-03</time>
+              <time title="创建时间：2019-11-03 08:18:44 / 修改时间：13:45:20" itemprop="dateCreated datePublished" datetime="2019-11-03T08:18:44+08:00">2019-11-03</time>
             
 
             
@@ -457,7 +457,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//若start&lt;mid，则前半部分有序，若start&lt;target&lt;mid，则在前半部分找，即high=mid</span></span><br><span class="line">        <span class="comment">//若start&gt;mid，则后半部分有序，若mid&lt;target&lt;high,则在后半部分找，即low=mid+1</span></span><br><span class="line">        <span class="keyword">int</span> start=<span class="number">0</span>,high=nums.length-<span class="number">1</span>,mid;</span><br><span class="line">        <span class="keyword">while</span>(start&lt;=high)&#123;</span><br><span class="line">            mid=(start+high)/<span class="number">2</span>;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">//最后的判断条件</span></span><br><span class="line">            <span class="keyword">if</span>(nums[mid]==target)</span><br><span class="line">                <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="comment">//[4,5,6,7,0,1,2] 3  最后会执行到0这个地方，永远跳不出去</span></span><br><span class="line">            <span class="keyword">if</span>(start==high&amp;&amp;nums[mid]!=target)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">if</span>(nums[start]&lt;=nums[mid])&#123; <span class="comment">//注意这里的等于号  不然[1,3] 0 通不过</span></span><br><span class="line">                <span class="keyword">if</span>(nums[start]&lt;=target&amp;&amp;target&lt;nums[mid])</span><br><span class="line">                    high=mid-<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    start=mid+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(nums[start]&gt;=nums[mid])&#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[mid]&lt;target&amp;&amp;target&lt;=nums[high])</span><br><span class="line">                    start=mid+<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    high=mid-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">       <span class="keyword">return</span> -<span class="number">1</span>; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="（D）42-接雨水（两个指针）"><a href="#（D）42-接雨水（两个指针）" class="headerlink" title="（D）42.接雨水（两个指针）"></a>（D）42.接雨水（两个指针）</h4><blockquote>
 <p>给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/22/rainwatertrap.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/rainwatertrap.png" alt="img"></p>
 <p>上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。 感谢 Marcos 贡献此图。</p>
 <p>示例:</p>
 <p>输入: [0,1,0,2,1,0,1,3,2,1,2,1]<br>输出: 6</p>
@@ -495,10 +495,10 @@
 <h4 id="（D）84-柱状图中最大的矩形"><a href="#（D）84-柱状图中最大的矩形" class="headerlink" title="（D）84.柱状图中最大的矩形"></a>（D）84.柱状图中最大的矩形</h4><blockquote>
 <p>给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。</p>
 <p>求在该柱状图中，能够勾勒出来的矩形的最大面积。</p>
-<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/histogram.png" alt="img"></p>
+<p><img src="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/histogram.png" alt="img"></p>
 <p>以上是柱状图的示例，其中每个柱子的宽度为 1，给定的高度为 [2,1,5,6,2,3]。</p>
 <p>图中阴影部分为所能勾勒出的最大矩形面积，其面积为 10 个单位。</p>
-<p> <img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/10/12/histogram_area.png" alt="img"></p>
+<p> <img src="https://raw.githubusercontent.com/yuan33jf/images/blob/master/leetcode/histogram_area.png" alt="img"></p>
 <p>示例:</p>
 <p>输入: [2,1,5,6,2,3]<br>输出: 10</p>
 <p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/largest-rectangle-in-histogram" target="_blank" rel="noopener">https://leetcode-cn.com/problems/largest-rectangle-in-histogram</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
