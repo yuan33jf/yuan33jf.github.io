@@ -293,212 +293,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/11/network/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yissmy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/first_image.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="未来可期">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/11/network/" itemprop="url">
-                  计算机网络
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-12-11 20:28:33 / 修改时间：22:19:46" itemprop="dateCreated datePublished" datetime="2019-12-11T20:28:33+08:00">2019-12-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/基础/" itemprop="url" rel="index"><span itemprop="name">基础</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/基础/计算机网络/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><ol>
-<li><p>网络层（主机与主机的逻辑通信），传输层（进程与进程–端到端的逻辑通信—使用端口）。</p>
-</li>
-<li><p>复用—发送方不同的应用进程都可一个传输层协议传送数据。</p>
-<p>分用—接收方的传输层去除报文首部后能够把这些数据正确地交付目的应用进程。</p>
-</li>
-<li><p>主要协议：用户数据报协议UDP（数据单位：UDP用户数据报）、传输控制协议TCP（数据单位：TCP报文段）</p>
-</li>
-</ol>
-<h4 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h4><ol>
-<li>无连接。</li>
-<li>不保证可靠交付。</li>
-<li>UDP一次交付一个完整的报文（不进行任务处理就交付给ip层/交付给上层的应用进程，应用程序必须选择合适大小的报文—ip分片/ip数据报首部长度过大—降低效率）—面向报文。</li>
-<li>无拥塞控制（源主机发送数据速度相同—实时应用）。</li>
-<li>支持一对一、一对多、多对一、多对多的交互通信。</li>
-<li>首部8字节（源端口、目的端口、长度–首部+数据、<em>校验和</em>） 。</li>
-</ol>
-<p>UDP若发现从IP层送上来的报文中的端口号不正确（不存在对应的应用进程），则直接丢弃该报文，并又网际控制报文协议ICMP发送”端口不可达“的差错报文给发送方。</p>
-<p>UDP虽使用到了端口，但不需要使用套接字来建立连接（TCP使用套接字—IP地址+端口号）</p>
-<h4 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h4><h5 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h5><ol>
-<li>面向连接。</li>
-<li>一对一的通信。</li>
-<li>可靠交付—无差错，不丢失，不重复，按序到达。</li>
-<li>全双工通信—发送/接收缓存。</li>
-<li>面向字节流—TCP与应用程序的交互是一次一个数据块（大小不等），但TCP把应用程序交下来的数据仅看为字节流–最终发送方可能交给TCP共10个数据块，但接收方的TCP可能只用4个数据块就交付给了上层应用），TCP根据对方给出的窗口值和网络的拥塞程度决定报文段的字节数量（从缓存中取）。</li>
-</ol>
-<h5 id="报文段的首部格式"><a href="#报文段的首部格式" class="headerlink" title="报文段的首部格式"></a>报文段的首部格式</h5><p>20个固定字节（最小长度），后面可根据需要增加4n个字节。</p>
-<ol>
-<li>源端口–2字节  目的端口–2字节</li>
-<li>序号–4字节，使用mod 2^32运算，指本报文段所发送的数据的第一个字节的序号</li>
-<li></li>
-</ol>
-<h5 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h5><ol>
-<li>出现差错时重传数据。</li>
-<li>接收方来得及接收发送方发送的数据。</li>
-</ol>
-<p>停止等待协议（自动重传请求ARQ）：每发送一个分组，都需要接收方确认，收到确认后发送下一个分组。</p>
-<pre><code>1. 超时重传（接收方检测出差错/传输过程丢失）。
-2. 确认丢失（发送方依然会超时重传，接收方丢弃这个重复分组，并发送确认）。
-3. 确认迟到（发送方依然会超时重传，接收方丢弃这个重复分组，并发送确认，但发送方之后收到重复的确认就丢弃）。
-4. 信道利用率低。
-</code></pre><p>连续ARQ协议：发送方每收到一个确认，就把发送窗口向前滑动一个分组的位置，并且只需要对按序到达的最后一个分组发送确认。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/09/leetcode-hot100/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2352,13 +2146,203 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/dp-singleton/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未来可期">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/13/dp-singleton/" itemprop="url">
+                  单例模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-13 19:19:17 / 修改时间：20:58:19" itemprop="dateCreated datePublished" datetime="2019-10-13T19:19:17+08:00">2019-10-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/" itemprop="url" rel="index"><span itemprop="name">理论</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//在类的内部创建实例，因为在定义静态变量的时候实例化了，所以不会出现在多线程下出现多个单例</span></span><br><span class="line">	<span class="comment">//对象的情况</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> EagerSingleton instance=<span class="keyword">new</span> EagerSingleton();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//私有化构造函数，使得其他类无法通过new来创建该对象</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其缺点在于对象一开始就创建了，如果之后没有用到过，则造成了内存浪费。</p>
+<h4 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> LazySingleton instance=<span class="keyword">null</span>; <span class="comment">//一开始不创建对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//getInstance()需要加上synchronized关键字用于对此方法加锁</span></span><br><span class="line">		<span class="comment">//如果没不加锁，则在多线程下可能出现创建了多个单例对象的情况</span></span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//在需要时才创建对象</span></span><br><span class="line">			instance=<span class="keyword">new</span> LazySingleton();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;	</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>缺点：虽然解决了饿汉式的缺点，但是直接加锁在多线程的情况下性能差。</p>
+<h4 id="双重检查锁定"><a href="#双重检查锁定" class="headerlink" title="双重检查锁定"></a>双重检查锁定</h4><p>一开始最容易想到的是直接缩小锁的范围：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DCL</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">DCL</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> DCL instance=<span class="keyword">null</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">			<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">				instance=<span class="keyword">new</span> DCL();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是这样写还是存在单例对象不唯一的情况。比如线程A和B都在调用getInstance()，此时instance为null，A进入synchronized代码块执行创建，B等待，A执行完，B进入synchronized代码块执行创建，此时单例对象不唯一。</p>
+<p>因而需要在synchronized中再进行一次判断：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">		<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">			<span class="keyword">if</span>(instance==<span class="keyword">null</span>)</span><br><span class="line">				instance=<span class="keyword">new</span> DCL();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但这样还是有问题的，instance=new DCL()并非原子操作，在多线程下会有问题。因而需要加上violate关键字。</p>
+<blockquote>
+<p><img src="https://pic4.zhimg.com/v2-604affa4923259f255488d81eaa2a4f3_r.jpg" alt="图片引用于https://zhuanlan.zhihu.com/p/36926260"></p>
+</blockquote>
+<p>最终的代码应该是这样的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DCL</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">DCL</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> DCL instance=<span class="keyword">null</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">			<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">				<span class="keyword">if</span>(instance==<span class="keyword">null</span>)</span><br><span class="line">					instance=<span class="keyword">new</span> DCL();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h4><p>静态内部类比起以上的三种方法都好。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticSingleton</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">StaticSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span></span>&#123;</span><br><span class="line">		<span class="comment">//静态内部类来实现懒加载</span></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> StaticSingleton instance=<span class="keyword">new</span> StaticSingleton();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StaticSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> LazyHolder.instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当任何一个线程第一次调用getInstance()时，会使得LazyHolder被加载和被初始化<a href="#_msocom_1">[yj1]</a> （在调用getInstance时才会进行初始化），之后会初始化LazyHolder中的静态成员变量instance，此时由java虚拟机保证其线程安全性，确保instance只会被初始化一次。</p>
+<h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><p>以上的所有方法都不考虑反射机制和序列化机制。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EnumSingleton &#123;	</span><br><span class="line">	instance;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> EnumSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以双重检查锁定为例测试：（结果为false，即不是唯一单例，利用反射创建了新的实例）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	DCL dcl=DCL.getInstance();</span><br><span class="line">	Constructor&lt;DCL&gt; con=DCL.class.getDeclaredConstructor();</span><br><span class="line">	con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">	DCL s=con.newInstance();</span><br><span class="line">	System.out.println(dcl==s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用枚举方法测试：（会报错，防止了反射攻击）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		</span><br><span class="line">	EnumSingleton s1=EnumSingleton.instance;</span><br><span class="line">		</span><br><span class="line">	Constructor&lt;EnumSingleton&gt; con=EnumSingleton.class.getDeclaredConstructor();</span><br><span class="line">	con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">	EnumSingleton s2=con.newInstance();</span><br><span class="line">		</span><br><span class="line">	System.out.println(s1==s2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/36926260" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36926260</a></p>
+<p><a href="https://www.cnblogs.com/saoyou/p/11087462.html" target="_blank" rel="noopener">https://www.cnblogs.com/saoyou/p/11087462.html</a></p>
+<p><a href="https://blog.csdn.net/lovelion/article/details/7420886" target="_blank" rel="noopener">https://blog.csdn.net/lovelion/article/details/7420886</a></p>
+<p><a href="https://blog.csdn.net/lovelion/article/details/7420888" target="_blank" rel="noopener">https://blog.csdn.net/lovelion/article/details/7420888</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
@@ -2403,7 +2387,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2460,7 +2444,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2513,7 +2497,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
