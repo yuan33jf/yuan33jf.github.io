@@ -293,6 +293,420 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="勿忘初心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/20/network/" itemprop="url">
+                  网络
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-20 20:38:40" itemprop="dateCreated datePublished" datetime="2019-12-20T20:38:40+08:00">2019-12-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-22 23:13:12" itemprop="dateModified" datetime="2019-12-22T23:13:12+08:00">2019-12-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="从浏览器输入一个网址会发生什么？"><a href="#从浏览器输入一个网址会发生什么？" class="headerlink" title="从浏览器输入一个网址会发生什么？"></a>从浏览器输入一个网址会发生什么？</h4><p>首先，TCP/IP的体系结构将计算机网络分为四层，从下往上为网络接口层（物理层和数据链路层），网络层，传输层和应用层。<br>如果简述一下各层的作用，则</p>
+<ol>
+<li>应用层：应用进程间的通信和交互的规则（报文）。</li>
+<li>传输层：不同主机进程间的通信。包含两种协议：传输控制协议TCP（报文段）和用户数据报协议UDP（用户数据报）。</li>
+<li>网络层：不同主机间的通信（IP数据报）。</li>
+<li>网络接口层：数据链路层（帧），物理层（比特流）。</li>
+</ol>
+<p>如果客户端的应用进程向服务器的应用进程传送数据，则首先从上往下（应用层-&gt;物理层）各层封装各自的控制信息再往下传送（物理层不会加上此层的控制信息），如果中途途径路由器，则需要向上剥去数据链路层的控制信息，得到网络层首部的目的地址，根据路由转发表得到相应的信息，之后再往下重新添加控制信息进行传送，直至到达服务器，此时从下往上（物理层-&gt;应用层）剥去各层的控制信息，将数据交给服务器对应的应用进程。</p>
+<p>回到最先的问题，在我们输入一个网址后，发生的事情如下：</p>
+<h5 id="域名解析为IP地址"><a href="#域名解析为IP地址" class="headerlink" title="域名解析为IP地址"></a>域名解析为IP地址</h5><p>先不谈论http和https的区别。如果不输入https，则浏览器默认使用http。<br>如果DNS Cache和host文件中都没有记录此域名相对于的ip地址，则需要查询本地DNS服务器，当然本地DNS服务器需要途径一段路程才能到达，DNS使用的是UDP协议，默认端口号为53，则再加上一个ip地址（假设为8.8.8.8）则可以将此查询请求发送至本地DNS服务器了，因为本地DNS服务器和我们不在一个局域网内，所以会途径路由器（路由表–目的ip地址 掩码 下一跳地址），而在数据链路层上使用的是mac地址，那如何得知该路由器的mac地址呢？此时会使用到arp，如果arp缓存中没有对应的信息，则会广播一个请求询问此ip对应的mac地址是什么，对应的ip收到这条请求后会单播将mac地址回应给请求的人（此时双方都会在各自的arp缓存中加入对应的ip和mac的映射信息）。<br>如果本地DNS服务器中有此域名对应的ip地址则直接将结果返回。如果没有，则本地服务器需要去访问根域名服务器（全球一共13台），比如baidu.com.cn这个域名，虽然根域名服务器可能也不知道此域名对应的ip地址，但是它知道.cn的ip地址，于是本地DNS服务器又会去查询.cn对应的域名服务器，如果.cn域名服务器还是不知道，则它会告诉本地DNS服务器.com的ip地址…直到最后本地DNS服务器知道baidu.com.cn的ip地址，然后将结果返回。</p>
+<h5 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h5><p>在得到ip地址后，首先要建立一个连接以便以后的数据传输。</p>
+<ol>
+<li>第一次：客户端发送一个SYN报文（SYN=1,seq=x），此时客户端处于SYN-SENT状态。</li>
+<li>第二次：服务器回应一个SYN+ACK报文（SYN=1,ACK=1,seq=y,ack=x+1），此时服务器处于SYN-REVD状态。</li>
+<li>第三次：客户端回应一个ACK报文（ACK=1,seq=x+1,ack=y+1），此时客户端处于ESTABLISHED状态，服务器收到ACK报文后，也处于ESTABLISHED状态。</li>
+</ol>
+<p><strong><em>为什么要三次握手？</em></strong><br>谢希仁的《计算机网络》中的原因是：防止失效的连接请求到达服务端，服务端建立了连接，但此时客户端已经进入CLOSED状态，服务端会一直等待下去，浪费资源。<br>其实三次握手本质是四次握手：</p>
+<ul>
+<li>客户端-请求-&gt;服务端</li>
+<li>服务端-确认-&gt;客户端</li>
+<li>服务端-请求-&gt;客户端</li>
+<li>客户端-确认-&gt;服务端</li>
+</ul>
+<p>其中第二和第三可以合并在一起成为一次。<br>同时TCP的可靠连接是靠seq来维持的，如果仅仅是两次握手，则客户端其实没有对服务端的起始序列号做确认，不能保证传输的可靠性。<br><strong><em>半连接队列是什么？</em></strong><br>第二次握手后，服务器将此请求连接放在一个队列中，如果迟迟得不到客户端的回应，则重传，直到重传到一定的次数，则将该请求连接从队列中删除。<br><strong><em>三次握手过程中可以携带数据吗？</em></strong><br>第三次握手可以携带数据，因为此时服务端和客户端都已经确认了对方的起始序列号，双方的发送和接收能力都没有问题。</p>
+<h5 id="客户端发送http请求"><a href="#客户端发送http请求" class="headerlink" title="客户端发送http请求"></a>客户端发送http请求</h5><p>在建立完连接后，此时可以发送http请求报文，目标端口为80。</p>
+<h5 id="服务器返回http报文"><a href="#服务器返回http报文" class="headerlink" title="服务器返回http报文"></a>服务器返回http报文</h5><h5 id="浏览器解析渲染页面"><a href="#浏览器解析渲染页面" class="headerlink" title="浏览器解析渲染页面"></a>浏览器解析渲染页面</h5><h5 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h5><p>此处涉及到TCP的四次挥手，其过程为：</p>
+<ol>
+<li>客户端发出释放连接请求（FIN=1,seq=u），此时客户端处于FIN-WAIT-1状态。</li>
+<li>服务器收到此请求后发出确认（ACK=1,ack=u+1,seq=v），此时客户端到服务端这个方向的连接关闭，此时服务器处于CLOSE-WAIT状态，而客户端接收到此确认报文后，处于FIN-WAIT-2状态。</li>
+<li>服务器如果还有未发送完的数据，则继续发送，发送完毕后服务端给客户端发送释放连接报文（FIN=1,seq=w,ack=u+1），此时服务器处于LAST-ACK状态。</li>
+<li>客户端给服务端发送最后的确认报文（ACK=1,ack=w+1,seq=u+1），然后进入TIME-WAIT状态，等待2MSL才进入CLOSED状态。而服务端若收到此确认报文，则直接进入CLOSED状态。</li>
+</ol>
+<p><strong><em>为什么要等待2MSL时间？</em></strong></p>
+<ol>
+<li>确保客户端发送的最后的确认报文到达服务端，如果服务端一段时间后收不到（服务端只有收到了确认报文才能进入CLOSED状态），则会重发释放连接报文，因为有了此段等待时间，客户端能收到重发的释放连接报文。</li>
+<li>避免已失效的连接请求报文段出现在本连接中，让本连接内所产生的所有报文段都从网络中消失。</li>
+</ol>
+<h4 id="TCP可靠传输是如何实现的？"><a href="#TCP可靠传输是如何实现的？" class="headerlink" title="TCP可靠传输是如何实现的？"></a>TCP可靠传输是如何实现的？</h4><p>首先，先谈一下tcp和udp的主要性质。</p>
+<ol>
+<li>UDP：无连接；不保证可靠交付；面向报文—对应用层交付下来的报文，只添加UDP首部后就下交给网络层；没有拥塞控制（满足实时应用的需求）。</li>
+<li>TCP：建立接连；可靠交付；面向字节流（见下）；拥塞控制。</li>
+</ol>
+<h5 id="字节流特性"><a href="#字节流特性" class="headerlink" title="字节流特性"></a>字节流特性</h5><p>UDP不多详述，首先是TCP的面向字节流特性。TCP在连接的两端设有发送和接收缓存，用于临时存放发送/接收的数据。面对应用程序下交的数据，TCP仅仅把它们看成字节流，并不关心它们是什么，比如应用层放到TCP缓存中的数据太长，则TCP可以选择把它们分开再传送。这种特性结合序号便能实现可靠传输（见下），但是因为这种字节流特性，所以在写应用程序时，要把字节流正确分开（这块会涉及到socket编程，以后再说）。</p>
+<h5 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h5><p>网络层是不可靠交付，所以TCP必须保证可靠的传输，为了实现这一目的，有以下的概念：</p>
+<p><strong><em>滑动窗口</em></strong><br>TCP滑动窗口以字节为单位，假设A发送数据，B接收数据。<br>发送方的窗口不能超过接收方的窗口，假设A的窗口大小为30，B的窗口大小为30。<br>首先A发送序号为1-10的数据，假设B收到了1-5、7-8的数据，则B交付主机，并给A发送的确认报文段中的确认号为6（期盼收到的序号），A和B的窗口同时向前移动至序号6，A在一定的时间过后没有收到确认就需要重传已发送的报文，若此次重传使得B收到序号6的数据了，则将6-8的数据交付主机并给A发送确认，此时A和B的窗口同时向前移动3个字节。</p>
+<p><strong><em>流量控制</em></strong><br>流量控制指让发送方的发送速率不要过快，使得接收方来得及接收。<br>使用滑动窗口机制可以控制发送方的窗口，接收方发送的确认报文中的窗口字段可以设置发送方的窗口，从而实现对发送方的流量控制。</p>
+<p><strong><em>拥塞控制</em></strong><br>当网络出现拥塞，则分组会丢失，此时发送方会重传导致网络更加拥塞。为了避免这一种情况，发送方在网络出现拥塞时应该降低发送的速率缓解网络拥塞。<br>TCP进行拥塞控制的算法有四种：慢开始、拥塞避免、快重传和快恢复。</p>
+<ol>
+<li>慢开始和拥塞避免：<br>一开始设置拥塞窗口为1，当收到确认后，将窗口乘以2…直至达到慢开始门限，此时进入拥塞避免，拥塞窗口以线性速度增长，如果出现了超时（收不到确认号），则将慢开始门限降至此时拥塞窗口的一半，重新执行慢开始。</li>
+<li>快重传和快恢复：<br>如果接收方收到三个重复的确认，则知道出现了丢失，则立即重传，因为此时不是网络拥塞，仅仅时丢失，所以执行快恢复，将门限和拥塞窗口都设置为当前拥塞窗口的一半。</li>
+</ol>
+<h4 id="HTTP-1-0、HTTP-1-1、HTTP-2、HTTPS？"><a href="#HTTP-1-0、HTTP-1-1、HTTP-2、HTTPS？" class="headerlink" title="HTTP/1.0、HTTP/1.1、HTTP/2、HTTPS？"></a>HTTP/1.0、HTTP/1.1、HTTP/2、HTTPS？</h4><p>HTTP/1.0不详述，其主要的缺点在于每个TCP连接只能发送一个请求，而TCP建立连接要三次握手，为了解决这个问题，可以设置在请求头中设置Connection为keep-alive，但是这不是标准字段，不同实现的行为可能不一致，因而引出HTTP/1.1。</p>
+<p>HTTP/1.1</p>
+<ol>
+<li>久连接，即TCP连接默认不关闭，客户端在最后一个请求，可以设置Connection为close即可关闭连接（如果客户端和服务端长时间发现对方没有活动，也可以主动关闭连接）。</li>
+<li>在一个TCP连接中，客户端可以同时发送多个请求，但是服务端还是按照顺序一一回应。</li>
+<li>增加了PUT、PATCH、HEAD、OPTIONS、DELETE方法。</li>
+<li>增加Host字段，有了此字段，可以将请求发往同一台服务器上的不同网站（虚拟主机）。<br>但1.1还是有缺点的，它的回应必须按照顺序，如果前一个请求的回应速度很慢，则后面的请求都得不到及时的回应，因而引出来HTTP/2。</li>
+</ol>
+<p>HTTP/2</p>
+<ol>
+<li>HTTP/1.1的头信息是文本（ASCII编码），数据可以是文本，也可以是二进制，而HTTP/2则全部采用二进制。</li>
+<li>如果服务器同时收到了A和B的请求，如果A请求处理很慢，则服务器可以将对A已经处理好的部分发送，然后先处理B请求。</li>
+<li>同一个连接中连续的数据包可能属于不同的回应，为了解决此问题，每个请求/回应的数据包称为一个数据流，而每个数据流都有一个编号用以区分。客户端发出的数据流的id为奇数，服务端发出的数据流的id为偶数。客户端还可以指定数据流的优先级，优先级越高，服务器会越早回应。</li>
+<li>头信息可以压缩发送，同时客户端和服务端同时维护一张头信息表，所有字段都会存入这张表，生成索引号，之后不发送具体字段，只发送索引号就可以了。</li>
+<li>服务端可以主动推送给客户端数据。比如客户端解析HTML后需要再向服务端请求静态资源，此时服务器可以主动推送。</li>
+</ol>
+<p>—未完—</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/leetcode-201912/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="勿忘初心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/20/leetcode-201912/" itemprop="url">
+                  leetcode(12/20起 包含部分剑指Offer的题 常用的排序等)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-20 19:55:45" itemprop="dateCreated datePublished" datetime="2019-12-20T19:55:45+08:00">2019-12-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-22 10:11:49" itemprop="dateModified" datetime="2019-12-22T10:11:49+08:00">2019-12-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="常见排序"><a href="#常见排序" class="headerlink" title="常见排序"></a>常见排序</h5><h6 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span>[] nums,<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(left&gt;right)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> index=partition(nums,nums[left],left,right);</span><br><span class="line">        quickSort(nums,left,index-<span class="number">1</span>);</span><br><span class="line">        quickSort(nums,index+<span class="number">1</span>,right);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> pivot, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span></span>&#123;</span><br><span class="line">        <span class="comment">//快排</span></span><br><span class="line">        <span class="keyword">while</span>(start&lt;end)&#123;</span><br><span class="line">            <span class="keyword">while</span>(nums[end]&gt;pivot&amp;&amp;start&lt;end)&#123;</span><br><span class="line">                end--;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(start==end)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            nums[start]=nums[end];</span><br><span class="line">            start++;</span><br><span class="line">            <span class="keyword">while</span>(nums[start]&lt;pivot&amp;&amp;start&lt;end)&#123;</span><br><span class="line">                start++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(start==end)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            nums[end]=nums[start];</span><br><span class="line">            end--;</span><br><span class="line">        &#125;</span><br><span class="line">        nums[start]=pivot;</span><br><span class="line">        <span class="keyword">return</span> start;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String []args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> []nums= &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">0</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">0</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span>&#125;;</span><br><span class="line">        quickSort(nums,<span class="number">0</span>,nums.length-<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++) &#123;</span><br><span class="line">            System.out.print(nums[i]+<span class="string">" "</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSort</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">MergeSort</span><span class="params">(<span class="keyword">int</span> []nums,<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(start==end)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> mid=(start+end)/<span class="number">2</span>;</span><br><span class="line">        MergeSort(nums,start,mid);</span><br><span class="line">        MergeSort(nums,mid+<span class="number">1</span>,end);</span><br><span class="line">        merge(nums,start,mid,end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> []nums,<span class="keyword">int</span> start,<span class="keyword">int</span> mid,<span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> left = start;</span><br><span class="line">        <span class="keyword">int</span> right = mid + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] copy = <span class="keyword">new</span> <span class="keyword">int</span>[end - start + <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt;= mid &amp;&amp; right &lt;= end) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[left] &gt; nums[right]) &#123;</span><br><span class="line">                copy[index++] = nums[right++];</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                copy[index++] = nums[left++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//剩余</span></span><br><span class="line">        <span class="keyword">while</span>(left &lt;= mid) &#123;</span><br><span class="line">            copy[index++] = nums[left++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(right &lt;= end) &#123;</span><br><span class="line">            copy[index++] = nums[right++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=start;i&lt;=end;i++)&#123;</span><br><span class="line">            nums[i]=copy[i-start];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> []num1=&#123;<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">6</span>&#125;; <span class="comment">//奇数</span></span><br><span class="line">        <span class="keyword">int</span> []num2=&#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">10</span>,<span class="number">2</span>,<span class="number">7</span>,<span class="number">6</span>&#125;;  <span class="comment">//偶数</span></span><br><span class="line">        MergeSort(num1,<span class="number">0</span>,num1.length-<span class="number">1</span>);</span><br><span class="line">        MergeSort(num2,<span class="number">0</span>,num2.length-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="16-最接近的三数之和（中等）"><a href="#16-最接近的三数之和（中等）" class="headerlink" title="16.最接近的三数之和（中等）"></a>16.最接近的三数之和（中等）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">threeSumClosest</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">       <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length-<span class="number">2</span>;i++)&#123;</span><br><span class="line">           <span class="keyword">int</span> sum=target-nums[i];</span><br><span class="line">           <span class="keyword">int</span> curRes=nums[i+<span class="number">1</span>]+nums[nums.length-<span class="number">1</span>];</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>,k=nums.length-<span class="number">1</span>;j&lt;k;)&#123;</span><br><span class="line">               <span class="comment">//这里的j=i+1,k=nums.length-1还是这个</span></span><br><span class="line">               <span class="keyword">if</span>(nums[j]+nums[k]&gt;sum)&#123;</span><br><span class="line">                   <span class="keyword">if</span>(Math.abs(sum-nums[j]-nums[k])&lt;Math.abs(sum-curRes))&#123;</span><br><span class="line">                       curRes=nums[j]+nums[k];</span><br><span class="line">                   &#125;</span><br><span class="line">                   k--;</span><br><span class="line">               &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[j]+nums[k]&lt;sum)&#123;</span><br><span class="line">                   <span class="keyword">if</span>(Math.abs(sum-nums[j]-nums[k])&lt;Math.abs(sum-curRes))&#123;</span><br><span class="line">                       curRes=nums[j]+nums[k];</span><br><span class="line">                   &#125;</span><br><span class="line">                   j++;</span><br><span class="line">               &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                   <span class="keyword">return</span> target;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           curRes=curRes+nums[i];</span><br><span class="line">           System.out.println(curRes+<span class="string">"  "</span>+res);</span><br><span class="line">           <span class="keyword">if</span>(i==<span class="number">0</span>)&#123;</span><br><span class="line">               res=curRes;</span><br><span class="line">           &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               <span class="keyword">if</span>(Math.abs(target-res)&gt;Math.abs(target-curRes))&#123;</span><br><span class="line">                   res=curRes;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           System.out.println(curRes+<span class="string">"  "</span>+res);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="43-字符串相乘（中等）"><a href="#43-字符串相乘（中等）" class="headerlink" title="43.字符串相乘（中等）"></a>43.字符串相乘（中等）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">multiply</span><span class="params">(String num1, String num2)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//字符串相乘就是num1和num2[i]想乘再相加</span></span><br><span class="line">        <span class="keyword">if</span>(num1.equals(<span class="string">"0"</span>)||num2.equals(<span class="string">"0"</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"0"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        String res=<span class="string">""</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=num2.length()-<span class="number">1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">            StringBuilder sb=<span class="keyword">new</span> StringBuilder(<span class="string">""</span>);</span><br><span class="line">            <span class="comment">//末尾补零</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=num2.length()-i-<span class="number">1</span>;j&gt;<span class="number">0</span>;j--)&#123;</span><br><span class="line">                sb.append(<span class="string">"0"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//和num1的每一位相乘</span></span><br><span class="line">            <span class="keyword">int</span> carry=<span class="number">0</span>;  <span class="comment">//进位</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> k=num1.length()-<span class="number">1</span>;k&gt;=<span class="number">0</span>;k--)&#123;</span><br><span class="line">                <span class="keyword">int</span> sum=(num1.charAt(k)-<span class="string">'0'</span>)*(num2.charAt(i)-<span class="string">'0'</span>)+carry;</span><br><span class="line">                carry=sum/<span class="number">10</span>;</span><br><span class="line">                sb.append(sum%<span class="number">10</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(carry!=<span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">//乘法与加法的区别</span></span><br><span class="line">                sb.append(carry);</span><br><span class="line">            &#125;</span><br><span class="line">            res=add(res,sb.reverse().toString());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">(String num1,String num2)</span></span>&#123;</span><br><span class="line">        StringBuilder sb=<span class="keyword">new</span> StringBuilder(<span class="string">""</span>);</span><br><span class="line">        <span class="keyword">int</span> carry=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=num1.length()-<span class="number">1</span>,j=num2.length()-<span class="number">1</span>;;i--,j--)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i&lt;<span class="number">0</span>&amp;&amp;j&lt;<span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">int</span> n1=(i&gt;=<span class="number">0</span>)?num1.charAt(i)-<span class="string">'0'</span>:<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> n2=(j&gt;=<span class="number">0</span>)?num2.charAt(j)-<span class="string">'0'</span>:<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">int</span> sum=n1+n2+carry;</span><br><span class="line">            sb.append(sum%<span class="number">10</span>);</span><br><span class="line">            carry=sum/<span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(carry==<span class="number">1</span>)&#123;</span><br><span class="line">            sb.append(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.reverse().toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="69-x的平方根（简单）-二分"><a href="#69-x的平方根（简单）-二分" class="headerlink" title="69.x的平方根（简单） 二分"></a>69.x的平方根（简单） 二分</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//二分模板的使用</span></span><br><span class="line">        <span class="comment">//因为测试用例有2147395599 所以设为long  Integer的范围为-2147483648 到2147483648 但mid*mid会超出范围</span></span><br><span class="line">        <span class="keyword">long</span> left=<span class="number">0</span>,right=x;</span><br><span class="line">        <span class="keyword">while</span>(left&lt;right)&#123;</span><br><span class="line">            <span class="keyword">long</span> mid=(left+right+<span class="number">1</span>)&gt;&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(mid*mid&gt;x)&#123;</span><br><span class="line">                <span class="comment">//能排除右边界，则选右中位数，否则造成死循环</span></span><br><span class="line">                right=mid-<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                left=mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>)left;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="89-格雷编码（中等）"><a href="#89-格雷编码（中等）" class="headerlink" title="89.格雷编码（中等）"></a>89.格雷编码（中等）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">grayCode</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//0--&gt;0 1--&gt;0和1 2--&gt;将1的答案前面加0以及将1的答案倒序后前面加1</span></span><br><span class="line">        List&lt;Integer&gt; res=<span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        res.add(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">int</span> head=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=res.size()-<span class="number">1</span>;j&gt;=<span class="number">0</span>;j--)&#123;</span><br><span class="line">                res.add(head+res.get(j));</span><br><span class="line">            &#125;</span><br><span class="line">            head=head&lt;&lt;<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="295-数据流的中位数（困难）优先队列"><a href="#295-数据流的中位数（困难）优先队列" class="headerlink" title="295.数据流的中位数（困难）优先队列"></a>295.数据流的中位数（困难）优先队列</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MedianFinder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> count=<span class="number">0</span>; <span class="comment">//记录奇数和偶数</span></span><br><span class="line">    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; left; <span class="comment">//大顶堆 记录着小的数字</span></span><br><span class="line">    <span class="keyword">private</span> PriorityQueue&lt;Integer&gt; right; <span class="comment">//小顶堆 记录着大的数字</span></span><br><span class="line">    <span class="comment">/** initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MedianFinder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        left=<span class="keyword">new</span> PriorityQueue&lt;&gt;((x,y)-&gt;y-x);</span><br><span class="line">        right=<span class="keyword">new</span> PriorityQueue&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addNum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//如果是偶数，则加入至right，但需要先加入到left，然后left.peek()至right</span></span><br><span class="line">            <span class="comment">//保证left中的数字始终小于right的</span></span><br><span class="line">            left.add(num);</span><br><span class="line">            right.add(left.poll());</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right.add(num);</span><br><span class="line">            left.add(right.poll());</span><br><span class="line">        &#125;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">findMedian</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> (right.peek()+left.peek())/<span class="number">2.0</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> right.peek();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your MedianFinder object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * MedianFinder obj = new MedianFinder();</span></span><br><span class="line"><span class="comment"> * obj.addNum(num);</span></span><br><span class="line"><span class="comment"> * double param_2 = obj.findMedian();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+<h5 id="919-会议室II（中等）-LintCode"><a href="#919-会议室II（中等）-LintCode" class="headerlink" title="919.会议室II（中等）/LintCode"></a>919.会议室II（中等）/LintCode</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition of Interval:</span></span><br><span class="line"><span class="comment"> * public classs Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start, end;</span></span><br><span class="line"><span class="comment"> *     Interval(int start, int end) &#123;</span></span><br><span class="line"><span class="comment"> *         this.start = start;</span></span><br><span class="line"><span class="comment"> *         this.end = end;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intervals: an array of meeting time intervals</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>: the minimum number of conference rooms required</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minMeetingRooms</span><span class="params">(List&lt;Interval&gt; intervals)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//记录每个时间所需的房间数---如果是start，则res[start]++  如果是end，则res[end]-- 然后遍历res相加，取得最大的房间数量</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(intervals==<span class="keyword">null</span>||intervals.size()==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxEnd=intervals.get(<span class="number">0</span>).end;</span><br><span class="line">        <span class="keyword">for</span>(Interval interval:intervals)&#123;</span><br><span class="line">            maxEnd=Math.max(interval.end,maxEnd);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> []res=<span class="keyword">new</span> <span class="keyword">int</span>[maxEnd+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(Interval interval:intervals)&#123;</span><br><span class="line">            res[interval.start]++;</span><br><span class="line">            res[interval.end]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxRoom=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> curRoom=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(Integer i:res)&#123;</span><br><span class="line">            maxRoom=Math.max(maxRoom,curRoom+i);</span><br><span class="line">            curRoom+=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxRoom;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/09/leetcode-hot100/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1977,403 +2391,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/dp-proxy/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yissmy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/first_image.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="勿忘初心">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/13/dp-proxy/" itemprop="url">
-                  代理模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 19:30:31" itemprop="dateCreated datePublished" datetime="2019-10-13T19:30:31+08:00">2019-10-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-20 20:28:27" itemprop="dateModified" datetime="2019-10-20T20:28:27+08:00">2019-10-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/" itemprop="url" rel="index"><span itemprop="name">理论</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>首先，以一个场景为例。</p>
-<p>比如作为学生要进行学习：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Student</span> </span>&#123;	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每个学生学习的东西都是不同的，所以假设学生A在学习代理模式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentA</span> <span class="keyword">implements</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在学习代理模式"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是在学习前和学习后学生A还要做些别的事情，比如在学习前要先吃饭，学习完要玩游戏。这些行为是对学习这个行为的“增强”，我们可以写在别的类里面（代理类）来实现这样的需求。</p>
-<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentProxy</span> <span class="keyword">implements</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> StudentA sa;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">StudentProxy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		sa=<span class="keyword">new</span> StudentA();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		eat();</span><br><span class="line">		sa.study();</span><br><span class="line">		play();	</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在吃饭"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在玩游戏"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	Student s=<span class="keyword">new</span> StudentProxy();</span><br><span class="line">	s.study();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对于静态代理，就是将代理类和目标类都实现相同的接口，假设目标类在原有的方法A的基础上，需要新的方法B和C，则此时就用到了代理，将方法A,B,C一起放到代理类中的一个方法D中，之后调用代理类的方法D即可。</p>
-<h4 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DynamicProxy</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Object target;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">DynamicProxy</span><span class="params">(Object target)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.target=target;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		eat();</span><br><span class="line">		Object res=method.invoke(target, args);</span><br><span class="line">		play();</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在吃饭"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在玩游戏"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//第一个&lt;T&gt;表示该方法是泛型方法，第二个T表示返回值类型</span></span><br><span class="line">		<span class="keyword">return</span> (T)Proxy.newProxyInstance(</span><br><span class="line">				target.getClass().getClassLoader(),</span><br><span class="line">				target.getClass().getInterfaces(),</span><br><span class="line">				<span class="keyword">this</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的invoke()方法实现了不依赖于实现具体接口的具体方法。</p>
-<p>测试代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	DynamicProxy dynamicProxy=<span class="keyword">new</span> DynamicProxy(<span class="keyword">new</span> StudentA());</span><br><span class="line">	Student studentProxy=dynamicProxy.getProxy();</span><br><span class="line">	studentProxy.study();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在静态代理中，如果我们现在想要复用吃饭和玩游戏，比如除了学生需要学习以外，已经迈入社会的人也需要工作，而现在需要在工作的前后增加吃饭和玩游戏这两个行为，若使用静态代理，我们需要实现新的接口，然后写该接口的实现方法，但是无论学习还是工作前后的行为是一样的，却要多些那么多代码。同时，若接口改变的时候，被代理的类和代理类都需要进行改变。</p>
-<p>而在动态代理中，我们只需要用这个通用的代理类去包装任何我们需要的被代理类即可，不需要多写代码了。同时接口改变时，只需要改变被代理类，代理类不需要改变。</p>
-<h4 id="CGLib动态代理"><a href="#CGLib动态代理" class="headerlink" title="CGLib动态代理"></a>CGLib动态代理</h4><p>静态代理和动态代理都需要被代理类实现了接口，若想要包装的方法没有实现接口，则需要CGLib动态代理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CGLibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> CGLibProxy instance=<span class="keyword">new</span> CGLibProxy();</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">CGLibProxy</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> CGLibProxy <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args, MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在吃饭"</span>);</span><br><span class="line">		Object res=proxy.invokeSuper(obj, args);</span><br><span class="line">		System.out.println(<span class="string">"我在玩游戏"</span>);</span><br><span class="line">		<span class="keyword">return</span> res;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">(Class&lt;T&gt; cls)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (T)Enhancer.create(cls, <span class="keyword">this</span>);</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>测试代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	Student s=CGLibProxy.getInstance().getProxy(StudentA.class);</span><br><span class="line">	s.study();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><blockquote>
-<p><a href="https://www.zhihu.com/question/20794107/answer/151028753" target="_blank" rel="noopener">https://www.zhihu.com/question/20794107/answer/151028753</a> </p>
-<p><a href="https://zhuanlan.zhihu.com/p/36550730" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36550730</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/dp-singleton/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yissmy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/first_image.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="勿忘初心">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/13/dp-singleton/" itemprop="url">
-                  单例模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 19:19:17 / 修改时间：20:58:19" itemprop="dateCreated datePublished" datetime="2019-10-13T19:19:17+08:00">2019-10-13</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/" itemprop="url" rel="index"><span itemprop="name">理论</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="饿汉式"><a href="#饿汉式" class="headerlink" title="饿汉式"></a>饿汉式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//在类的内部创建实例，因为在定义静态变量的时候实例化了，所以不会出现在多线程下出现多个单例</span></span><br><span class="line">	<span class="comment">//对象的情况</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> EagerSingleton instance=<span class="keyword">new</span> EagerSingleton();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//私有化构造函数，使得其他类无法通过new来创建该对象</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其缺点在于对象一开始就创建了，如果之后没有用到过，则造成了内存浪费。</p>
-<h4 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> LazySingleton instance=<span class="keyword">null</span>; <span class="comment">//一开始不创建对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//getInstance()需要加上synchronized关键字用于对此方法加锁</span></span><br><span class="line">		<span class="comment">//如果没不加锁，则在多线程下可能出现创建了多个单例对象的情况</span></span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//在需要时才创建对象</span></span><br><span class="line">			instance=<span class="keyword">new</span> LazySingleton();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;	</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>缺点：虽然解决了饿汉式的缺点，但是直接加锁在多线程的情况下性能差。</p>
-<h4 id="双重检查锁定"><a href="#双重检查锁定" class="headerlink" title="双重检查锁定"></a>双重检查锁定</h4><p>一开始最容易想到的是直接缩小锁的范围：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DCL</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">DCL</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> DCL instance=<span class="keyword">null</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">			<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">				instance=<span class="keyword">new</span> DCL();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但是这样写还是存在单例对象不唯一的情况。比如线程A和B都在调用getInstance()，此时instance为null，A进入synchronized代码块执行创建，B等待，A执行完，B进入synchronized代码块执行创建，此时单例对象不唯一。</p>
-<p>因而需要在synchronized中再进行一次判断：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">		<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">			<span class="keyword">if</span>(instance==<span class="keyword">null</span>)</span><br><span class="line">				instance=<span class="keyword">new</span> DCL();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>但这样还是有问题的，instance=new DCL()并非原子操作，在多线程下会有问题。因而需要加上violate关键字。</p>
-<blockquote>
-<p><img src="https://pic4.zhimg.com/v2-604affa4923259f255488d81eaa2a4f3_r.jpg" alt="图片引用于https://zhuanlan.zhihu.com/p/36926260"></p>
-</blockquote>
-<p>最终的代码应该是这样的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DCL</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">DCL</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> DCL instance=<span class="keyword">null</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> DCL <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(instance==<span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="comment">//减小锁的范围，对代码块进行加锁</span></span><br><span class="line">			<span class="keyword">synchronized</span>(DCL.class) &#123;</span><br><span class="line">				<span class="keyword">if</span>(instance==<span class="keyword">null</span>)</span><br><span class="line">					instance=<span class="keyword">new</span> DCL();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h4><p>静态内部类比起以上的三种方法都好。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticSingleton</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">StaticSingleton</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LazyHolder</span></span>&#123;</span><br><span class="line">		<span class="comment">//静态内部类来实现懒加载</span></span><br><span class="line">		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> StaticSingleton instance=<span class="keyword">new</span> StaticSingleton();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> StaticSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> LazyHolder.instance;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当任何一个线程第一次调用getInstance()时，会使得LazyHolder被加载和被初始化<a href="#_msocom_1">[yj1]</a> （在调用getInstance时才会进行初始化），之后会初始化LazyHolder中的静态成员变量instance，此时由java虚拟机保证其线程安全性，确保instance只会被初始化一次。</p>
-<h4 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h4><p>以上的所有方法都不考虑反射机制和序列化机制。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> EnumSingleton &#123;	</span><br><span class="line">	instance;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> EnumSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>以双重检查锁定为例测试：（结果为false，即不是唯一单例，利用反射创建了新的实例）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	DCL dcl=DCL.getInstance();</span><br><span class="line">	Constructor&lt;DCL&gt; con=DCL.class.getDeclaredConstructor();</span><br><span class="line">	con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">	DCL s=con.newInstance();</span><br><span class="line">	System.out.println(dcl==s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用枚举方法测试：（会报错，防止了反射攻击）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">		</span><br><span class="line">	EnumSingleton s1=EnumSingleton.instance;</span><br><span class="line">		</span><br><span class="line">	Constructor&lt;EnumSingleton&gt; con=EnumSingleton.class.getDeclaredConstructor();</span><br><span class="line">	con.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">	EnumSingleton s2=con.newInstance();</span><br><span class="line">		</span><br><span class="line">	System.out.println(s1==s2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><blockquote>
-<p><a href="https://zhuanlan.zhihu.com/p/36926260" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36926260</a></p>
-<p><a href="https://www.cnblogs.com/saoyou/p/11087462.html" target="_blank" rel="noopener">https://www.cnblogs.com/saoyou/p/11087462.html</a></p>
-<p><a href="https://blog.csdn.net/lovelion/article/details/7420886" target="_blank" rel="noopener">https://blog.csdn.net/lovelion/article/details/7420886</a></p>
-<p><a href="https://blog.csdn.net/lovelion/article/details/7420888" target="_blank" rel="noopener">https://blog.csdn.net/lovelion/article/details/7420888</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2418,7 +2442,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2475,7 +2499,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2528,7 +2554,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

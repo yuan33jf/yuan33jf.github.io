@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.1" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav_med.png?v=6.4.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav_small.png?v=6.4.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.1" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="从浏览器输入一个网址会发生什么？首先，TCP/IP的体系结构将计算机网络分为四层，从下往上为网络接口层（物理层和数据链路层），网络层，传输层和应用层。如果简述一下各层的作用，则  应用层：应用进程间的通信和交互的规则（报文）。 传输层：不同主机进程间的通信。包含两种协议：传输控制协议TCP（报文段）和用户数据报协议UDP（用户数据报）。 网络层：不同主机间的通信（IP数据报）。 网络接口层：数据链">
+<meta name="keywords" content="网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络">
+<meta property="og:url" content="http://yoursite.com/2019/12/20/network/index.html">
+<meta property="og:site_name" content="勿忘初心">
+<meta property="og:description" content="从浏览器输入一个网址会发生什么？首先，TCP/IP的体系结构将计算机网络分为四层，从下往上为网络接口层（物理层和数据链路层），网络层，传输层和应用层。如果简述一下各层的作用，则  应用层：应用进程间的通信和交互的规则（报文）。 传输层：不同主机进程间的通信。包含两种协议：传输控制协议TCP（报文段）和用户数据报协议UDP（用户数据报）。 网络层：不同主机间的通信（IP数据报）。 网络接口层：数据链">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-22T15:13:12.687Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络">
+<meta name="twitter:description" content="从浏览器输入一个网址会发生什么？首先，TCP/IP的体系结构将计算机网络分为四层，从下往上为网络接口层（物理层和数据链路层），网络层，传输层和应用层。如果简述一下各层的作用，则  应用层：应用进程间的通信和交互的规则（报文）。 传输层：不同主机进程间的通信。包含两种协议：传输控制协议TCP（报文段）和用户数据报协议UDP（用户数据报）。 网络层：不同主机间的通信（IP数据报）。 网络接口层：数据链">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/20/network/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>网络 | 勿忘初心</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">勿忘初心</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/20/network/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="勿忘初心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网络
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-20 20:38:40" itemprop="dateCreated datePublished" datetime="2019-12-20T20:38:40+08:00">2019-12-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-12-22 23:13:12" itemprop="dateModified" datetime="2019-12-22T23:13:12+08:00">2019-12-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络/" itemprop="url" rel="index"><span itemprop="name">网络</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="从浏览器输入一个网址会发生什么？"><a href="#从浏览器输入一个网址会发生什么？" class="headerlink" title="从浏览器输入一个网址会发生什么？"></a>从浏览器输入一个网址会发生什么？</h4><p>首先，TCP/IP的体系结构将计算机网络分为四层，从下往上为网络接口层（物理层和数据链路层），网络层，传输层和应用层。<br>如果简述一下各层的作用，则</p>
+<ol>
+<li>应用层：应用进程间的通信和交互的规则（报文）。</li>
+<li>传输层：不同主机进程间的通信。包含两种协议：传输控制协议TCP（报文段）和用户数据报协议UDP（用户数据报）。</li>
+<li>网络层：不同主机间的通信（IP数据报）。</li>
+<li>网络接口层：数据链路层（帧），物理层（比特流）。</li>
+</ol>
+<p>如果客户端的应用进程向服务器的应用进程传送数据，则首先从上往下（应用层-&gt;物理层）各层封装各自的控制信息再往下传送（物理层不会加上此层的控制信息），如果中途途径路由器，则需要向上剥去数据链路层的控制信息，得到网络层首部的目的地址，根据路由转发表得到相应的信息，之后再往下重新添加控制信息进行传送，直至到达服务器，此时从下往上（物理层-&gt;应用层）剥去各层的控制信息，将数据交给服务器对应的应用进程。</p>
+<p>回到最先的问题，在我们输入一个网址后，发生的事情如下：</p>
+<h5 id="域名解析为IP地址"><a href="#域名解析为IP地址" class="headerlink" title="域名解析为IP地址"></a>域名解析为IP地址</h5><p>先不谈论http和https的区别。如果不输入https，则浏览器默认使用http。<br>如果DNS Cache和host文件中都没有记录此域名相对于的ip地址，则需要查询本地DNS服务器，当然本地DNS服务器需要途径一段路程才能到达，DNS使用的是UDP协议，默认端口号为53，则再加上一个ip地址（假设为8.8.8.8）则可以将此查询请求发送至本地DNS服务器了，因为本地DNS服务器和我们不在一个局域网内，所以会途径路由器（路由表–目的ip地址 掩码 下一跳地址），而在数据链路层上使用的是mac地址，那如何得知该路由器的mac地址呢？此时会使用到arp，如果arp缓存中没有对应的信息，则会广播一个请求询问此ip对应的mac地址是什么，对应的ip收到这条请求后会单播将mac地址回应给请求的人（此时双方都会在各自的arp缓存中加入对应的ip和mac的映射信息）。<br>如果本地DNS服务器中有此域名对应的ip地址则直接将结果返回。如果没有，则本地服务器需要去访问根域名服务器（全球一共13台），比如baidu.com.cn这个域名，虽然根域名服务器可能也不知道此域名对应的ip地址，但是它知道.cn的ip地址，于是本地DNS服务器又会去查询.cn对应的域名服务器，如果.cn域名服务器还是不知道，则它会告诉本地DNS服务器.com的ip地址…直到最后本地DNS服务器知道baidu.com.cn的ip地址，然后将结果返回。</p>
+<h5 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h5><p>在得到ip地址后，首先要建立一个连接以便以后的数据传输。</p>
+<ol>
+<li>第一次：客户端发送一个SYN报文（SYN=1,seq=x），此时客户端处于SYN-SENT状态。</li>
+<li>第二次：服务器回应一个SYN+ACK报文（SYN=1,ACK=1,seq=y,ack=x+1），此时服务器处于SYN-REVD状态。</li>
+<li>第三次：客户端回应一个ACK报文（ACK=1,seq=x+1,ack=y+1），此时客户端处于ESTABLISHED状态，服务器收到ACK报文后，也处于ESTABLISHED状态。</li>
+</ol>
+<p><strong><em>为什么要三次握手？</em></strong><br>谢希仁的《计算机网络》中的原因是：防止失效的连接请求到达服务端，服务端建立了连接，但此时客户端已经进入CLOSED状态，服务端会一直等待下去，浪费资源。<br>其实三次握手本质是四次握手：</p>
+<ul>
+<li>客户端-请求-&gt;服务端</li>
+<li>服务端-确认-&gt;客户端</li>
+<li>服务端-请求-&gt;客户端</li>
+<li>客户端-确认-&gt;服务端</li>
+</ul>
+<p>其中第二和第三可以合并在一起成为一次。<br>同时TCP的可靠连接是靠seq来维持的，如果仅仅是两次握手，则客户端其实没有对服务端的起始序列号做确认，不能保证传输的可靠性。<br><strong><em>半连接队列是什么？</em></strong><br>第二次握手后，服务器将此请求连接放在一个队列中，如果迟迟得不到客户端的回应，则重传，直到重传到一定的次数，则将该请求连接从队列中删除。<br><strong><em>三次握手过程中可以携带数据吗？</em></strong><br>第三次握手可以携带数据，因为此时服务端和客户端都已经确认了对方的起始序列号，双方的发送和接收能力都没有问题。</p>
+<h5 id="客户端发送http请求"><a href="#客户端发送http请求" class="headerlink" title="客户端发送http请求"></a>客户端发送http请求</h5><p>在建立完连接后，此时可以发送http请求报文，目标端口为80。</p>
+<h5 id="服务器返回http报文"><a href="#服务器返回http报文" class="headerlink" title="服务器返回http报文"></a>服务器返回http报文</h5><h5 id="浏览器解析渲染页面"><a href="#浏览器解析渲染页面" class="headerlink" title="浏览器解析渲染页面"></a>浏览器解析渲染页面</h5><h5 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h5><p>此处涉及到TCP的四次挥手，其过程为：</p>
+<ol>
+<li>客户端发出释放连接请求（FIN=1,seq=u），此时客户端处于FIN-WAIT-1状态。</li>
+<li>服务器收到此请求后发出确认（ACK=1,ack=u+1,seq=v），此时客户端到服务端这个方向的连接关闭，此时服务器处于CLOSE-WAIT状态，而客户端接收到此确认报文后，处于FIN-WAIT-2状态。</li>
+<li>服务器如果还有未发送完的数据，则继续发送，发送完毕后服务端给客户端发送释放连接报文（FIN=1,seq=w,ack=u+1），此时服务器处于LAST-ACK状态。</li>
+<li>客户端给服务端发送最后的确认报文（ACK=1,ack=w+1,seq=u+1），然后进入TIME-WAIT状态，等待2MSL才进入CLOSED状态。而服务端若收到此确认报文，则直接进入CLOSED状态。</li>
+</ol>
+<p><strong><em>为什么要等待2MSL时间？</em></strong></p>
+<ol>
+<li>确保客户端发送的最后的确认报文到达服务端，如果服务端一段时间后收不到（服务端只有收到了确认报文才能进入CLOSED状态），则会重发释放连接报文，因为有了此段等待时间，客户端能收到重发的释放连接报文。</li>
+<li>避免已失效的连接请求报文段出现在本连接中，让本连接内所产生的所有报文段都从网络中消失。</li>
+</ol>
+<h4 id="TCP可靠传输是如何实现的？"><a href="#TCP可靠传输是如何实现的？" class="headerlink" title="TCP可靠传输是如何实现的？"></a>TCP可靠传输是如何实现的？</h4><p>首先，先谈一下tcp和udp的主要性质。</p>
+<ol>
+<li>UDP：无连接；不保证可靠交付；面向报文—对应用层交付下来的报文，只添加UDP首部后就下交给网络层；没有拥塞控制（满足实时应用的需求）。</li>
+<li>TCP：建立接连；可靠交付；面向字节流（见下）；拥塞控制。</li>
+</ol>
+<h5 id="字节流特性"><a href="#字节流特性" class="headerlink" title="字节流特性"></a>字节流特性</h5><p>UDP不多详述，首先是TCP的面向字节流特性。TCP在连接的两端设有发送和接收缓存，用于临时存放发送/接收的数据。面对应用程序下交的数据，TCP仅仅把它们看成字节流，并不关心它们是什么，比如应用层放到TCP缓存中的数据太长，则TCP可以选择把它们分开再传送。这种特性结合序号便能实现可靠传输（见下），但是因为这种字节流特性，所以在写应用程序时，要把字节流正确分开（这块会涉及到socket编程，以后再说）。</p>
+<h5 id="可靠传输"><a href="#可靠传输" class="headerlink" title="可靠传输"></a>可靠传输</h5><p>网络层是不可靠交付，所以TCP必须保证可靠的传输，为了实现这一目的，有以下的概念：</p>
+<p><strong><em>滑动窗口</em></strong><br>TCP滑动窗口以字节为单位，假设A发送数据，B接收数据。<br>发送方的窗口不能超过接收方的窗口，假设A的窗口大小为30，B的窗口大小为30。<br>首先A发送序号为1-10的数据，假设B收到了1-5、7-8的数据，则B交付主机，并给A发送的确认报文段中的确认号为6（期盼收到的序号），A和B的窗口同时向前移动至序号6，A在一定的时间过后没有收到确认就需要重传已发送的报文，若此次重传使得B收到序号6的数据了，则将6-8的数据交付主机并给A发送确认，此时A和B的窗口同时向前移动3个字节。</p>
+<p><strong><em>流量控制</em></strong><br>流量控制指让发送方的发送速率不要过快，使得接收方来得及接收。<br>使用滑动窗口机制可以控制发送方的窗口，接收方发送的确认报文中的窗口字段可以设置发送方的窗口，从而实现对发送方的流量控制。</p>
+<p><strong><em>拥塞控制</em></strong><br>当网络出现拥塞，则分组会丢失，此时发送方会重传导致网络更加拥塞。为了避免这一种情况，发送方在网络出现拥塞时应该降低发送的速率缓解网络拥塞。<br>TCP进行拥塞控制的算法有四种：慢开始、拥塞避免、快重传和快恢复。</p>
+<ol>
+<li>慢开始和拥塞避免：<br>一开始设置拥塞窗口为1，当收到确认后，将窗口乘以2…直至达到慢开始门限，此时进入拥塞避免，拥塞窗口以线性速度增长，如果出现了超时（收不到确认号），则将慢开始门限降至此时拥塞窗口的一半，重新执行慢开始。</li>
+<li>快重传和快恢复：<br>如果接收方收到三个重复的确认，则知道出现了丢失，则立即重传，因为此时不是网络拥塞，仅仅时丢失，所以执行快恢复，将门限和拥塞窗口都设置为当前拥塞窗口的一半。</li>
+</ol>
+<h4 id="HTTP-1-0、HTTP-1-1、HTTP-2、HTTPS？"><a href="#HTTP-1-0、HTTP-1-1、HTTP-2、HTTPS？" class="headerlink" title="HTTP/1.0、HTTP/1.1、HTTP/2、HTTPS？"></a>HTTP/1.0、HTTP/1.1、HTTP/2、HTTPS？</h4><p>HTTP/1.0不详述，其主要的缺点在于每个TCP连接只能发送一个请求，而TCP建立连接要三次握手，为了解决这个问题，可以设置在请求头中设置Connection为keep-alive，但是这不是标准字段，不同实现的行为可能不一致，因而引出HTTP/1.1。</p>
+<p>HTTP/1.1</p>
+<ol>
+<li>久连接，即TCP连接默认不关闭，客户端在最后一个请求，可以设置Connection为close即可关闭连接（如果客户端和服务端长时间发现对方没有活动，也可以主动关闭连接）。</li>
+<li>在一个TCP连接中，客户端可以同时发送多个请求，但是服务端还是按照顺序一一回应。</li>
+<li>增加了PUT、PATCH、HEAD、OPTIONS、DELETE方法。</li>
+<li>增加Host字段，有了此字段，可以将请求发往同一台服务器上的不同网站（虚拟主机）。<br>但1.1还是有缺点的，它的回应必须按照顺序，如果前一个请求的回应速度很慢，则后面的请求都得不到及时的回应，因而引出来HTTP/2。</li>
+</ol>
+<p>HTTP/2</p>
+<ol>
+<li>HTTP/1.1的头信息是文本（ASCII编码），数据可以是文本，也可以是二进制，而HTTP/2则全部采用二进制。</li>
+<li>如果服务器同时收到了A和B的请求，如果A请求处理很慢，则服务器可以将对A已经处理好的部分发送，然后先处理B请求。</li>
+<li>同一个连接中连续的数据包可能属于不同的回应，为了解决此问题，每个请求/回应的数据包称为一个数据流，而每个数据流都有一个编号用以区分。客户端发出的数据流的id为奇数，服务端发出的数据流的id为偶数。客户端还可以指定数据流的优先级，优先级越高，服务器会越早回应。</li>
+<li>头信息可以压缩发送，同时客户端和服务端同时维护一张头信息表，所有字段都会存入这张表，生成索引号，之后不发送具体字段，只发送索引号就可以了。</li>
+<li>服务端可以主动推送给客户端数据。比如客户端解析HTML后需要再向服务端请求静态资源，此时服务器可以主动推送。</li>
+</ol>
+<p>—未完—</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"><i class="fa fa-tag"></i> 网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/20/leetcode-201912/" rel="next" title="leetcode(12/20起 包含部分剑指Offer的题 常用的排序等)">
+                <i class="fa fa-chevron-left"></i> leetcode(12/20起 包含部分剑指Offer的题 常用的排序等)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/first_image.jpg"
+                alt="yissmy" />
+            
+              <p class="site-author-name" itemprop="name">yissmy</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#从浏览器输入一个网址会发生什么？"><span class="nav-number">1.</span> <span class="nav-text">从浏览器输入一个网址会发生什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#域名解析为IP地址"><span class="nav-number">1.1.</span> <span class="nav-text">域名解析为IP地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TCP三次握手"><span class="nav-number">1.2.</span> <span class="nav-text">TCP三次握手</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#客户端发送http请求"><span class="nav-number">1.3.</span> <span class="nav-text">客户端发送http请求</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务器返回http报文"><span class="nav-number">1.4.</span> <span class="nav-text">服务器返回http报文</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#浏览器解析渲染页面"><span class="nav-number">1.5.</span> <span class="nav-text">浏览器解析渲染页面</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关闭连接"><span class="nav-number">1.6.</span> <span class="nav-text">关闭连接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP可靠传输是如何实现的？"><span class="nav-number">2.</span> <span class="nav-text">TCP可靠传输是如何实现的？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#字节流特性"><span class="nav-number">2.1.</span> <span class="nav-text">字节流特性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可靠传输"><span class="nav-number">2.2.</span> <span class="nav-text">可靠传输</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-1-0、HTTP-1-1、HTTP-2、HTTPS？"><span class="nav-number">3.</span> <span class="nav-text">HTTP/1.0、HTTP/1.1、HTTP/2、HTTPS？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yissmy</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
+
+
