@@ -293,6 +293,325 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/21/leetcode-202001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="勿忘初心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/21/leetcode-202001/" itemprop="url">
+                  leetcode(1/21起 随缘做题)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-21 09:31:42 / 修改时间：09:33:33" itemprop="dateCreated datePublished" datetime="2020-01-21T09:31:42+08:00">2020-01-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h5 id="93-复原IP地址（中等）回溯"><a href="#93-复原IP地址（中等）回溯" class="headerlink" title="93.复原IP地址（中等）回溯"></a>93.复原IP地址（中等）回溯</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">restoreIpAddresses</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//回溯+剪枝</span></span><br><span class="line">        List&lt;String&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        helper(s,res,<span class="number">0</span>,<span class="keyword">new</span> ArrayList&lt;&gt;());</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">helper</span><span class="params">(String s,List&lt;String&gt; res,<span class="keyword">int</span> pos,List&lt;String&gt; temp)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(pos==s.length()&amp;&amp;temp.size()==<span class="number">4</span>)&#123;</span><br><span class="line">            StringBuilder sb=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">            <span class="keyword">for</span>(String ss:temp)&#123;</span><br><span class="line">                sb.append(ss);</span><br><span class="line">                sb.append(<span class="string">"."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            sb.deleteCharAt(sb.toString().length()-<span class="number">1</span>);</span><br><span class="line">            res.add(sb.toString());</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(temp.size()&gt;<span class="number">4</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">3</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(pos+i&gt;s.length())&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            String ss=s.substring(pos,pos+i);</span><br><span class="line">            <span class="keyword">if</span>(ss.length()!=<span class="number">1</span>&amp;&amp;ss.startsWith(<span class="string">"0"</span>)||Integer.parseInt(ss)&gt;<span class="number">255</span>)&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            temp.add(ss);</span><br><span class="line">            helper(s,res,pos+i,temp);</span><br><span class="line">            temp.remove(temp.size()-<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/19/mysql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="yissmy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/first_image.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="勿忘初心">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/19/mysql/" itemprop="url">
+                  从0开始的mysql
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-01-19 13:41:22 / 修改时间：13:44:57" itemprop="dateCreated datePublished" datetime="2020-01-19T13:41:22+08:00">2020-01-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>参考：</p>
+<p>《高性能MySQL》第三版    </p>
+<p>极客时间  MySQL实战45讲</p>
+<p>MySQL的逻辑架构：</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/24/os/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -743,7 +1062,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2019/12/20/leetcode-201912/" itemprop="url">
-                  leetcode(12/20起 包含部分剑指Offer的题 常用的排序等)
+                  leetcode(12/20起)
                 </a>
               
             
@@ -786,7 +1105,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-01-19 09:41:54" itemprop="dateModified" datetime="2020-01-19T09:41:54+08:00">2020-01-19</time>
+                <time title="修改时间：2020-01-21 09:33:42" itemprop="dateModified" datetime="2020-01-21T09:33:42+08:00">2020-01-21</time>
               
             
           </span>
@@ -900,6 +1219,7 @@
 <h5 id="384-打乱数组（中等）"><a href="#384-打乱数组（中等）" class="headerlink" title="384.打乱数组（中等）"></a>384.打乱数组（中等）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">//洗牌</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] origin;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] res;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        res=nums.clone();</span><br><span class="line">        origin=nums.clone();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Resets the array to its original configuration and return it. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] reset() &#123;</span><br><span class="line">        res=origin.clone();</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Returns a random shuffling of the array. */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] shuffle() &#123;</span><br><span class="line">        randomArray(res);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">randomArray</span><span class="params">(<span class="keyword">int</span>[] res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;res.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> rand=rand(i,res.length-<span class="number">1</span>);</span><br><span class="line">            swap(i,rand,res);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">rand</span><span class="params">(<span class="keyword">int</span> min,<span class="keyword">int</span> max)</span></span>&#123;</span><br><span class="line">        Random random=<span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">int</span> mid=max-min;</span><br><span class="line">        <span class="keyword">return</span> random.nextInt(mid+<span class="number">1</span>)+min;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> rand,<span class="keyword">int</span>[] res)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp=res[i];</span><br><span class="line">        res[i]=res[rand];</span><br><span class="line">        res[rand]=temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your Solution object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * Solution obj = new Solution(nums);</span></span><br><span class="line"><span class="comment"> * int[] param_1 = obj.reset();</span></span><br><span class="line"><span class="comment"> * int[] param_2 = obj.shuffle();</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
 <h5 id="387-字符串中的第一个唯一字符（简单）"><a href="#387-字符串中的第一个唯一字符（简单）" class="headerlink" title="387.字符串中的第一个唯一字符（简单）"></a>387.字符串中的第一个唯一字符（简单）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">firstUniqChar</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> []map=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">26</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">            map[(s.charAt(i)-<span class="string">'a'</span>)]++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(map[(s.charAt(i)-<span class="string">'a'</span>)]==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">return</span> i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="412-Fizz-Buzz（简单）"><a href="#412-Fizz-Buzz（简单）" class="headerlink" title="412.Fizz Buzz（简单）"></a>412.Fizz Buzz（简单）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">fizzBuzz</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//可以放在散列表中，遍历散列表，如果能整除 则拼接到字符串后面（针对数字给的多的时候）</span></span><br><span class="line">        <span class="comment">//...现在数字少，就直接判断吧</span></span><br><span class="line">        List&lt;String&gt; res=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">3</span>==<span class="number">0</span>&amp;&amp;i%<span class="number">5</span>==<span class="number">0</span>)&#123;</span><br><span class="line">                res.add(<span class="string">"FizzBuzz"</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i%<span class="number">3</span>==<span class="number">0</span>)&#123;</span><br><span class="line">                res.add(<span class="string">"Fizz"</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(i%<span class="number">5</span>==<span class="number">0</span>)&#123;</span><br><span class="line">                res.add(<span class="string">"Buzz"</span>);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                res.add(String.valueOf(i));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="440-字典序的第K小数字（困难）"><a href="#440-字典序的第K小数字（困难）" class="headerlink" title="440.字典序的第K小数字（困难）"></a>440.字典序的第K小数字（困难）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findKthNumber</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//迷茫的一题 ??</span></span><br><span class="line">        k=k-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> cur=<span class="number">1</span>; <span class="comment">//第1棵子树</span></span><br><span class="line">        <span class="keyword">while</span>(k&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="comment">//计算到n为止一共有几个</span></span><br><span class="line">            <span class="keyword">int</span> num=cal(n,cur,cur+<span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span>(num&gt;k)&#123;</span><br><span class="line">                <span class="comment">//说明在这棵子树里，往下移动一层</span></span><br><span class="line">                cur=cur*<span class="number">10</span>;</span><br><span class="line">                k=k-<span class="number">1</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//否则往旁边一次</span></span><br><span class="line">                cur=cur+<span class="number">1</span>;</span><br><span class="line">                k=k-num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">cal</span><span class="params">(<span class="keyword">long</span> n,<span class="keyword">long</span> cur1,<span class="keyword">long</span> cur2)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(cur1&lt;=n)&#123;</span><br><span class="line">            res+=Math.min(cur2,n+<span class="number">1</span>)-cur1;</span><br><span class="line">            cur1=cur1*<span class="number">10</span>;</span><br><span class="line">            cur2=cur2*<span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="454-四数相加II（中等）"><a href="#454-四数相加II（中等）" class="headerlink" title="454.四数相加II（中等）"></a>454.四数相加II（中等）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">fourSumCount</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span>[] B, <span class="keyword">int</span>[] C, <span class="keyword">int</span>[] D)</span> </span>&#123;</span><br><span class="line">       <span class="comment">//A+B  == -(C+D) </span></span><br><span class="line">       <span class="comment">//使用hashmap计算A+B或C+D之和的个数</span></span><br><span class="line">       <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">       HashMap&lt;Integer,Integer&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;A.length;i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;B.length;j++)&#123;</span><br><span class="line">               map.put(A[i]+B[j],map.getOrDefault(A[i]+B[j],<span class="number">0</span>)+<span class="number">1</span>);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;C.length;i++)&#123;</span><br><span class="line">           <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;D.length;j++)&#123;</span><br><span class="line">               <span class="keyword">if</span>(map.containsKey(-(C[i]+D[j])))&#123;</span><br><span class="line">                   res+=map.get(-(C[i]+D[j]));</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="919-会议室II（中等）-LintCode"><a href="#919-会议室II（中等）-LintCode" class="headerlink" title="919.会议室II（中等）/LintCode"></a>919.会议室II（中等）/LintCode</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition of Interval:</span></span><br><span class="line"><span class="comment"> * public classs Interval &#123;</span></span><br><span class="line"><span class="comment"> *     int start, end;</span></span><br><span class="line"><span class="comment"> *     Interval(int start, int end) &#123;</span></span><br><span class="line"><span class="comment"> *         this.start = start;</span></span><br><span class="line"><span class="comment"> *         this.end = end;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> intervals: an array of meeting time intervals</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>: the minimum number of conference rooms required</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minMeetingRooms</span><span class="params">(List&lt;Interval&gt; intervals)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//记录每个时间所需的房间数---如果是start，则res[start]++  如果是end，则res[end]-- 然后遍历res相加，取得最大的房间数量</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(intervals==<span class="keyword">null</span>||intervals.size()==<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxEnd=intervals.get(<span class="number">0</span>).end;</span><br><span class="line">        <span class="keyword">for</span>(Interval interval:intervals)&#123;</span><br><span class="line">            maxEnd=Math.max(interval.end,maxEnd);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> []res=<span class="keyword">new</span> <span class="keyword">int</span>[maxEnd+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span>(Interval interval:intervals)&#123;</span><br><span class="line">            res[interval.start]++;</span><br><span class="line">            res[interval.end]--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> maxRoom=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> curRoom=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(Integer i:res)&#123;</span><br><span class="line">            maxRoom=Math.max(maxRoom,curRoom+i);</span><br><span class="line">            curRoom+=i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> maxRoom;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -2041,396 +2361,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/14/thread-ThreadLocal/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yissmy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/first_image.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="勿忘初心">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/14/thread-ThreadLocal/" itemprop="url">
-                  ThreadLocal简述
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-14 21:48:49" itemprop="dateCreated datePublished" datetime="2019-10-14T21:48:49+08:00">2019-10-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-10-20 13:26:23" itemprop="dateModified" datetime="2019-10-20T13:26:23+08:00">2019-10-20</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/线程/" itemprop="url" rel="index"><span itemprop="name">线程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h4><p>每个线程有一个成员变量，此成员变量为ThreadLocal的内部静态类ThreadLocalMap。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal.ThreadLocalMap threadLocals = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-<p>在ThreadLocalMap中定义了Entry静态类，以及存放Entry对象的数组table。</p>
-<p>Entry由ThreadLocal对象和Object对象构成，并且ThreadLocal对象是一个弱引用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalMap</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span> <span class="keyword">extends</span> <span class="title">WeakReference</span>&lt;<span class="title">ThreadLocal</span>&lt;?&gt;&gt; </span>&#123;</span><br><span class="line">        <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">        Object value;</span><br><span class="line"></span><br><span class="line">        Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">            <span class="keyword">super</span>(k);</span><br><span class="line">            value = v;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">    <span class="keyword">private</span> Entry[] table;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><h5 id="set-方法"><a href="#set-方法" class="headerlink" title="set()方法"></a>set()方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>)</span><br><span class="line">        map.set(<span class="keyword">this</span>, value);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        createMap(t, value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="get-方法"><a href="#get-方法" class="headerlink" title="get()方法"></a>get()方法</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> T <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t = Thread.currentThread();</span><br><span class="line">    ThreadLocalMap map = getMap(t);</span><br><span class="line">    <span class="keyword">if</span> (map != <span class="keyword">null</span>) &#123;</span><br><span class="line">        ThreadLocalMap.Entry e = map.getEntry(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">            T result = (T)e.value;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> setInitialValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="remove"><a href="#remove" class="headerlink" title="remove()"></a>remove()</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ThreadLocalMap m = getMap(Thread.currentThread());</span><br><span class="line">    <span class="keyword">if</span> (m != <span class="keyword">null</span>)</span><br><span class="line">        m.remove(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
-<li><p>每个线程都拥有属于自己的ThreadLocalMap，不会出现线程不安全的情况。</p>
-</li>
-<li><p>在ThreadLocalMap中，只有key是弱引用，但value并不是弱引用，对于ThreadLocal的内存泄漏问题，ThreadLocal中的set()，get()和remove()方法中都会将key为null的Entry删除。但是一直不调用这三个方法，则仍然会导致内存泄漏。</p>
-</li>
-<li><p>应用场景如数据库连接池，ThreadLocal<connection>，这样每个线程用到Connection时能保证都是同一个Connection。</connection></p>
-</li>
-</ol>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><blockquote>
-<p><a href="https://zhuanlan.zhihu.com/p/34494674" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/34494674</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/13/dp-decorate/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="yissmy">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/first_image.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="勿忘初心">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/13/dp-decorate/" itemprop="url">
-                  装饰模式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-13 20:44:30 / 修改时间：21:00:37" itemprop="dateCreated datePublished" datetime="2019-10-13T20:44:30+08:00">2019-10-13</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/" itemprop="url" rel="index"><span itemprop="name">理论</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/理论/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h4><p>除了代理模式来增强对象，装饰模式也可以起到相似的效果。</p>
-<p>以代理模式中提到的场景为例：</p>
-<p>首先有个学生接口，学生进行学习。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Student</span> </span>&#123;	</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其次有个实现该接口的类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentX</span> <span class="keyword">implements</span> <span class="title">Student</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在学习装饰模式"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在我们需要去装饰StudentX，使得StudentX能够在学习前吃饭，在学习后睡觉。</p>
-<p>在进行装饰前，我们首先需要一个抽象的装饰器：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentDecorate</span> <span class="keyword">implements</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Student student;</span><br><span class="line">	<span class="comment">//此构造函数的参数为需要被装饰的对象</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">StudentDecorate</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.student=student;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		student.study();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了抽象的装饰器后，此时就可以有具体的装饰类了：</p>
-<p>关于吃饭的装饰类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentEat</span> <span class="keyword">extends</span> <span class="title">StudentDecorate</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">StudentEat</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(student);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		eat();</span><br><span class="line">		<span class="keyword">super</span>.study();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在吃饭"</span>);</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关于睡觉的装饰类：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentSleep</span> <span class="keyword">extends</span> <span class="title">StudentDecorate</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">StudentSleep</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(student);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">study</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>.study();</span><br><span class="line">		sleep();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"我在睡觉"</span>);</span><br><span class="line">	&#125;	</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>有了这两个装饰类后，就可以在学习前后实现吃饭和睡觉了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;		</span><br><span class="line">	Student s=<span class="keyword">new</span> StudentX();</span><br><span class="line">	s=<span class="keyword">new</span> StudentEat(s);  <span class="comment">//使用吃饭装饰器</span></span><br><span class="line">	s=<span class="keyword">new</span> StudentSleep(s); <span class="comment">//使用睡觉装饰器</span></span><br><span class="line">	s.study();		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>更为体现装饰模式的写法为：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	Student s=<span class="keyword">new</span> StudentSleep(<span class="keyword">new</span> StudentEat(<span class="keyword">new</span> StudentX()));</span><br><span class="line">	s.study();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果不想在学习后睡觉了，就不使用睡觉装饰器来装饰就行了：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Student s=<span class="keyword">new</span> StudentEat(<span class="keyword">new</span> StudentX());</span><br><span class="line">s.study();</span><br></pre></td></tr></table></figure>
-<p>装饰模式和代理模式都能增强对象（继承也可以），但是装饰模式强调增强自身的能力，而代理模式是去增加一些和自身业务没有多大关系的事情。</p>
-<blockquote>
-<p>装饰者模式比继承更具良好的扩展性，完美的遵循开闭原则，继承是静态的附加责任，装饰者则是动态的附加责任。</p>
-</blockquote>
-<p>装饰模式在java.io中有着广泛的使用：</p>
-<p>如BufferedInputStream stream=new BufferedInputStream(new InputStream())</p>
-<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><blockquote>
-<p><a href="https://zhuanlan.zhihu.com/p/36575094" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36575094</a></p>
-<p><a href="https://blog.csdn.net/lyabc123456/article/details/80089497" target="_blank" rel="noopener">https://blog.csdn.net/lyabc123456/article/details/80089497</a></p>
-<p><a href="https://www.zhihu.com/question/41988550/answer/462204684" target="_blank" rel="noopener">https://www.zhihu.com/question/41988550/answer/462204684</a></p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2482,7 +2412,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2543,7 +2473,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">8</span>
+                      
+                    
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2600,7 +2532,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
